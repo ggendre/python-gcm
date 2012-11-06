@@ -78,6 +78,12 @@ if 'canonical' in response:
         entry = entity.filter(registration_id=reg_id)
         entry.registration_id = canonical_id
         entry.save()
+
+#Get the list of successfully handled registration_ids
+if 'success' in response:
+    for success, reg_id in response['success'].items():
+        print 'SUCCESS for reg_id %s' % reg_id
+
 ```
 
 Exceptions
