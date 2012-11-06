@@ -182,12 +182,15 @@ class GCM(object):
     def handle_json_response(self, response, registration_ids):
         errors = group_response(response, registration_ids, 'error')
         canonical = group_response(response, registration_ids, 'registration_id')
+        success = group_response(response, registration_ids, 'message_id')
 
         info = {}
         if errors:
             info.update({'errors': errors})
         if canonical:
             info.update({'canonical': canonical})
+        if success:
+            info.update({'success': success})
 
         return info
 
