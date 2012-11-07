@@ -116,6 +116,11 @@ class GCMTest(unittest.TestCase):
         self.assertEqual(canonical_group['678'], '6969')
         self.assertEqual(canonical_group['5443'], '07645')
 
+        success_group = group_response(self.response, ids, 'message_id')
+    	self.assertEqual(success_group['678'], '54749687859')
+		self.assertEqual(success_group['999'], '5456453453')
+		self.assertEqual(success_group['5443'], '123456778')
+
     def test_group_response_no_error(self):
         ids = ['123', '345', '678']
         response = {
@@ -127,8 +132,12 @@ class GCMTest(unittest.TestCase):
         }
         error_group = group_response(response, ids, 'error')
         canonical_group = group_response(response, ids, 'registration_id')
+        success_group = group_response(response, ids, 'message_id')
+
         self.assertEqual(error_group, None)
         self.assertEqual(canonical_group, None)
+        for id in ids:
+    		self.assertIn(id,success_group)
 
     def test_handle_json_response(self):
         ids = ['123', '345', '678', '999', '1919', '5443']
@@ -138,6 +147,8 @@ class GCMTest(unittest.TestCase):
         self.assertIn('NotRegistered', res['errors'])
         self.assertIn('canonical', res)
         self.assertIn('678', res['canonical'])
+        self.assertIn('678', res['success'])
+    	self.assertNotIn('123', res['success'])
 
     def test_handle_json_response_no_error(self):
         ids = ['123', '345', '678']
@@ -152,6 +163,7 @@ class GCMTest(unittest.TestCase):
 
         self.assertNotIn('errors', res)
         self.assertNotIn('canonical', res)
+        self.assertIn('success',res)
 
     def test_handle_plaintext_response(self):
         response = 'Error=NotRegistered'
