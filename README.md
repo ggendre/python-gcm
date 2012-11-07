@@ -81,9 +81,8 @@ if 'canonical' in response:
 
 #Get the list of successfully handled registration_ids
 if 'success' in response:
-    for success, reg_ids in response['success'].items():
-        for reg_id in reg_ids :
-            print 'SUCCESS for reg_id %s' % reg_id
+    for reg_id, success_id in response['success'].items():
+        print 'SUCCESS for reg_id %s' % reg_id
 
 
 ```
