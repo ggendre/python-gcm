@@ -34,7 +34,7 @@ def group_response(response, registration_ids, key):
     # Only consider the value in the dict
     tupled = [(s[0], s[1][key]) for s in filtered]
     # Grouping of errors and mapping of ids
-    if key is 'registration_id':
+    if key in ['registration_id','message_id']:
         grouping = {}
         for k, v in tupled:
             grouping[k] = v
